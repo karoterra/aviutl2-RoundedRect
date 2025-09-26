@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/karoterra/aviutl2-aulua/refs/heads/main/schema/aulua.schema.json
+project:
+  variables:
+    VERSION: v0.1.0
+    AUTHOR: karoterra
+
+build:
+  out_dir: build
+
+install:
+  out_dir: C:\ProgramData\aviutl2\Script\karoterra\
+
+scripts:
+  - name: 角丸四角形KR.obj2
+    sources:
+      - path: script/角丸四角形KR.obj2
+        variables:
+          INFO: 角丸四角形KR
