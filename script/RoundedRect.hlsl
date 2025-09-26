@@ -30,7 +30,7 @@ float4 blend(float4 src, float4 dst) {
     if (alpha < 1e-6) {
         return float4(0.0, 0.0, 0.0, 0.0);
     } else {
-        float4 color = (src * src.a + dst * dst.a * (1.0 - src.a)) / alpha;
+        float4 color = src + (1 - src.a) * dst;
         return float4(color.rgb, alpha);
     }
 }
