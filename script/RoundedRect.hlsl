@@ -3,7 +3,6 @@ cbuffer constant0 : register(b0) {
     float4 lineColor;
     float4 radius; // LT, RT, RB, LB
     float4 lineOuterRadius;
-    float4 lineInnerRadius;
     float2 halfSize; // width, height
     float2 halfRectSize;
     float lineW;
@@ -26,13 +25,7 @@ float sdRoundRect(float2 p, float2 b, float4 r) {
 // アルファブレンド
 // src: 前景色, dst: 背景色
 float4 blend(float4 src, float4 dst) {
-    float alpha = src.a + dst.a * (1.0 - src.a);
-    if (alpha < 1e-6) {
-        return float4(0.0, 0.0, 0.0, 0.0);
-    } else {
-        float4 color = src + (1 - src.a) * dst;
-        return float4(color.rgb, alpha);
-    }
+    return src + (1 - src.a) * dst;
 }
 
 // ピクセルシェーダーのメイン関数
@@ -47,7 +40,7 @@ float4 psmain(PSInput input) : SV_Target {
 
     // ライン(ストローク)
     float d2 = sdRoundRect(p, halfSize, lineOuterRadius);
-    float d3 = sdRoundRect(p, halfSize - lineW, lineInnerRadius);
+    float d3 = d2 + lineW;
     float alpha2 = (abs(d2) < abs(d3)) ? saturate(0.5 - d2) : saturate(0.5 + d3);
     alpha2 *= (lineW > 0.0) ? lineColor.a : 0.0;
     float4 lineCol = float4(lineColor.rgb * alpha2, alpha2);

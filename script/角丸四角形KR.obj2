@@ -127,25 +127,13 @@ local function expand(x)
     return res
 end
 
-local function shrink(x)
-    local res = {}
-    for i = 1, #radius do
-        res[i] = math.max(0, radius[i] - x)
-    end
-    return res
-end
-
 local lineOuterRadius = {}
-local lineInnerRadius = {}
 if linePos == 0 then
     lineOuterRadius = radius
-    lineInnerRadius = shrink(lineW)
 elseif linePos == 1 then
     lineOuterRadius = expand(lineW / 2)
-    lineInnerRadius = shrink(lineW / 2)
 elseif linePos == 2 then
     lineOuterRadius = expand(lineW)
-    lineInnerRadius = radius
 end
 
 -- 描画
@@ -161,8 +149,6 @@ obj.pixelshader(
         radius[1], radius[2], radius[3], radius[4],
         -- lineOuterRadius
         lineOuterRadius[1], lineOuterRadius[2], lineOuterRadius[3], lineOuterRadius[4],
-        -- lineInnerRadius
-        lineInnerRadius[1], lineInnerRadius[2], lineInnerRadius[3], lineInnerRadius[4],
         -- halfSize
         imageW / 2, imageH / 2,
         -- halfRectSize
